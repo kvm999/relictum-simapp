@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  validator-1:
+    image: relictum-simapp
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: validator-1
+    restart: always
+    ports:
+      - "26655:26655"
+      - "26656:26656"
+      - "26657:26657"
+    command: ["relictumd", "start"]
+    depends_on:
+      gen-keys:
+        condition: service_completed_successfully
+    volumes:
+      - ./data/.simapp-1:/root/.simapp
+
+  validator-2:
+    image: relictum-simapp
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: validator-2
+    restart: always
+    command: ["relictumd", "start"]
+    depends_on:
+      gen-keys:
+        condition: service_completed_successfully
+    volumes:
+      - ./data/.simapp-2:/root/.simapp
+
+  validator-3:
+    image: relictum-simapp
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: validator-3
+    restart: always
+    command: ["relictumd", "start"]
+    depends_on:
+      gen-keys:
+        condition: service_completed_successfully
+    volumes:
+      - ./data/.simapp-3:/root/.simapp
+
+  gen-keys:
+    image: relictum-simapp
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: key-gen
+    command: ["/usr/local/bin/gen-keys.sh"]
+    restart: no
+    volumes:
+      - ./data:/root/
