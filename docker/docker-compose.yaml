@@ -52,7 +52,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    container_name: key-gen
+    container_name: gen-keys
     command: ["/usr/local/bin/gen-keys.sh"]
     restart: no
     volumes:
