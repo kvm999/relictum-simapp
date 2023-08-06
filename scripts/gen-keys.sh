@@ -54,16 +54,15 @@ relictumd genesis gentx validator-2 --ip "validator-2" --moniker "validator-2" 5
 
 relictumd genesis add-genesis-account validator-3 500000000000000000GTN --keyring-backend=test --home="$HOME_3"
 relictumd genesis gentx validator-3 --ip "validator-3" --moniker "validator-3" 500000000000000000GTN --chain-id relictum --keyring-backend=test --home="$HOME_3"
-#relictumd genesis collect-gentxs --home="$HOME_3"
-
-relictumd genesis collect-gentxs --home="$HOME_1"
-relictumd genesis collect-gentxs --home="$HOME_2"
-relictumd genesis collect-gentxs --home="$HOME_3"
 
 jq '.app_state.mint.minter.inflation = "0.0"' "$GENESIS_1" > temp.json && mv temp.json "$GENESIS_1"
 jq '.app_state.mint.params.inflation_rate_change = "0.0"' "$GENESIS_1" > temp.json && mv temp.json "$GENESIS_1"
 jq '.app_state.mint.params.inflation_min = "0.0"' "$GENESIS_1" > temp.json && mv temp.json "$GENESIS_1"
 jq '.app_state.mint.params.inflation_max = "0.0"' "$GENESIS_1" > temp.json && mv temp.json "$GENESIS_1"
+
+relictumd genesis collect-gentxs --home="$HOME_1"
+relictumd genesis collect-gentxs --home="$HOME_2"
+relictumd genesis collect-gentxs --home="$HOME_3"
 
 relictumd genesis validate-genesis --home="$HOME_1"
 
